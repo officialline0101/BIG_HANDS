@@ -53,13 +53,13 @@
             border-radius: 4px;
             box-sizing: border-box;
         }
-        .visit-buttons, .symptoms, .menu-sections, .irradiations {
+        .visit-buttons, .symptoms, .menu-sections, .irradiations, .mr-buttons {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
             margin-bottom: 20px;
         }
-        .visit-buttons button, .symptoms button, .menu-sections button, .irradiations button {
+        .visit-buttons button, .symptoms button, .menu-sections button, .irradiations button, .mr-buttons button {
             flex: 1;
             padding: 10px;
             border: 1px solid #ccc;
@@ -70,7 +70,7 @@
             text-align: center;
             white-space: nowrap;
         }
-        .visit-buttons button.active, .symptoms button.active, .menu-sections button.active, .irradiations button.active {
+        .visit-buttons button.active, .symptoms button.active, .menu-sections button.active, .irradiations button.active, .mr-buttons button.active {
             background-color: #444;
             color: #fff;
         }
@@ -231,6 +231,12 @@
         <div class="label">お客様名※必須</div>
         <input type="text" id="name" placeholder="お名前を入力してください"> <!-- 名前入力フィールド -->
 
+        <div class="label">性別</div>
+        <div class="mr-buttons">
+            <button type="button" id="firstmr" onclick="selectmr(this)">男性</button> <!-- 初めて来院ボタン -->
+            <button type="button" id="repeatmr" onclick="selectmr(this)">女性</button> <!-- 2回目以降来院ボタン -->
+        </div>
+
         <div class="label">電話番号※必須</div>
         <input type="tel" id="phone" placeholder="電話番号を入力してください"> <!-- 電話番号入力フィールド -->
 
@@ -271,6 +277,7 @@
     <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script> <!-- LIFF SDKの読み込み -->
     <script>
         let visitCount = ''; <!-- 訪問回数を格納する変数 -->
+        let mrCount = ''; <!-- 訪問回数を格納する変数 -->
         let selectedSymptom = ''; <!-- 選択された症状を格納する変数 -->
         let irradiationsCount = ''; <!-- 選択された症状を格納する変数 -->
 
@@ -308,6 +315,16 @@
             element.classList.add('active');
             /* 選択された訪問回数を変数に格納 */
             visitCount = element.innerText;
+        }
+
+        function selectmr(element) {
+            /* 訪問回数ボタンの選択状態をリセット */
+            document.getElementById('firstmr').classList.remove('active');
+            document.getElementById('repeatmr').classList.remove('active');
+            /* クリックされたボタンを選択状態にする */
+            element.classList.add('active');
+            /* 選択された訪問回数を変数に格納 */
+            mrCount = element.innerText;
         }
 
         function selectirradiations(element) {
@@ -352,6 +369,7 @@
                 name,
                 phone,
                 visitCount,
+                mrCount,
                 selectedSymptom,
                 irradiationsCount,
                 dates: [date1, date2],
@@ -361,7 +379,7 @@
             // LINEトークにメッセージを送信
             liff.sendMessages([{
                 type: 'text',
-                text: `≪予約フォーム≫\n【お名前】：${formData.name}\n【電話番号】：${formData.phone}\n【ご来院回数】：${formData.visitCount}\n【希望日時】：\n・第一希望日\n${formData.dates[0]}\n・第二希望日\n${formData.dates[1]}\n【メッセージ】：${formData.message}`
+                text: `≪予約フォーム≫\n【お名前】：${formData.name}\n【電話番号】：${formData.phone}\n【性別】：${formData.mrCount}\n【ご来院回数】：${formData.visitCount}\n【希望日時】：\n・第一希望日\n${formData.dates[0]}\n・第二希望日\n${formData.dates[1]}\n【メッセージ】：${formData.message}`
             }]).then(() => {
                 /* メッセージ送信成功時の処理 */
                 alert('当日のキャンセルは無いようにお願いいたします。');
