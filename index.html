@@ -1,65 +1,223 @@
 <!DOCTYPE html>
-<html lang="ja"> <!-- HTML文書の言語を日本語に設定 -->
+<html lang="ja">
+
 <head>
-    <meta charset="UTF-8"> <!-- 文字エンコーディングをUTF-8に設定 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>予約フォーム</title> <!-- タイトルを「予約フォーム」に設定 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>予約フォーム</title>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
+        /* 右端の細いナビ（固定） */
+        .side-nav {
+            position: fixed;
+            /* 画面スクロールしても固定 */
+            right: -5px;
+            /* さらに右へ */
+            top: 80%;
+            /* 画面中央に固定 */
+            transform: translateY(-50%) translateX(13px);
+            /* 中央配置と右ずらし */
+            background: #38c4b7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 4px;
+            border-radius: 10px 0 0 10px;
+            z-index: 1000;
+            width: 35px;
+            /* さらに細く */
+        }
+
+        .side-nav a:active {
+            transform: scale(1.0);
+            /* タップした後に元のサイズに戻す */
+        }
+
+        .side-nav a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-size: 10px;
+            margin: 5px 0;
+            padding: 5px;
+            transition: background 0.3s, transform 0.2s;
+            border-radius: 5px;
+            width: 30px;
+            height: 30px;
+            text-align: center;
+        }
+
+        .side-nav a span {
+            font-size: 24px;
+            /* 矢印をさらに大きく */
+            position: absolute;
+            left: -0px;
+            /* 左端に寄せる */
+            top: 13px;
+            /* さらに下へ */
+        }
+
+        /* スマホ用の微調整 */
+        @media (max-width: 600px) {
+            .side-nav {
+                right: 2px;
+                /* スマホではさらに右端に */
+                width: 30px;
+                /* もっと細く */
+            }
+
+            .side-nav a {
+                width: 28px;
+                height: 28px;
+            }
+
+            .side-nav a i {
+                font-size: 12px;
+                /* スマホではもっと小さく */
+            }
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f7f7f7;
+            font-family: 'Poppins', sans-serif;
+            background-color: #624034;
             display: flex;
             justify-content: center;
             align-items: flex-start;
             height: 100vh;
             margin: 0;
-            padding-top: 20px;
+            padding-top: 5px;
+            overflow-x: hidden;
         }
+
         .container {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fdfdfd;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             width: 90%;
             max-width: 500px;
-            padding: 20px;
+            padding: 25px;
             box-sizing: border-box;
+            margin: 0 auto;
         }
+
         h1 {
+            background: linear-gradient(135deg, #38c4b7, #208d82);
+            color: white;
+            padding: 20px;
+            border-radius: 0 15px 0px 45px;
             text-align: center;
-            margin-bottom: 20px;
-            font-size: 24px;
+            display: block;
+            margin: -20px -15px 20px -15px;
+            font-size: 26px;
+            font-weight: 600;
+            box-shadow: inset 0 -5px 10px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
         }
-        label {
+
+        .label {
             display: block;
             margin-bottom: 10px;
-            font-weight: bold;
+            padding: 3px;
+            font-weight: 600;
+            background-color: #38c4b7;
+            color: white;
+            border-radius: 6px;
+            font-size: 18px;
+            text-align: center;
+            /* 中央揃え */
+            text-indent: 40px;
+            /* テキストを右に20pxずらす */
+            position: relative;
+            overflow: hidden;
         }
-.label {
-    display: block;
-    margin-bottom: 10px;
-    padding: 10px;
-    font-weight: bold;
-    background-color: #13ca5e;
-    color: white;
-    border-radius: 4px;
-    text-align: center;
-    margin-top: 5px; /* 上に余白を追加 */
-}
-        input[type="text"], input[type="tel"], textarea {
+
+        .labelContent {
+            display: block;
+            margin-top: 10px;
+            /* ← これを追加 */
+            margin-bottom: 10px;
+            padding: 3px;
+            font-weight: 600;
+            background-color: #38c4b7;
+            color: white;
+            border-radius: 6px;
+            font-size: 18px;
+            text-align: center;
+            text-indent: 0px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .labelSeibetu {
+            display: block;
+            margin-bottom: 10px;
+            padding: 3px;
+            font-weight: 600;
+            background-color: #38c4b7;
+            color: white;
+            border-radius: 6px;
+            font-size: 18px;
+            text-align: center;
+            text-indent: 0px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 必須マークのスタイル */
+        .required {
+            color: red;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        .required-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            color: #38c4b7;
+            font-weight: bold;
+            font-size: 0.9em;
+            border-radius: 4px;
+            padding: 2px 6px;
+            border: 2px solid #38c4b7;
+        }
+
+        input[type="text"],
+        input[type="tel"],
+        textarea {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             margin-bottom: 20px;
             border: 1px solid #ccc;
-            border-radius: 4px;
+            border-radius: 6px;
             box-sizing: border-box;
+            font-size: 16px;
+            transition: all 0.3s;
         }
-        .visit-buttons, .symptoms, .menu-sections, .irradiations, .mr-buttons {
+
+        .visit-buttons,
+        .mr-buttons,
+        .highschool-buttons,
+        .symptoms,
+        .menu-sections,
+        .irradiations {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
             margin-bottom: 20px;
         }
-        .visit-buttons button, .symptoms button, .menu-sections button, .irradiations button, .mr-buttons button {
+
+        .visit-buttons button,
+        .mr-buttons button,
+        .highschool-buttons button,
+        .symptoms button,
+        .menu-sections button,
+        .irradiations button {
             flex: 1;
             padding: 10px;
             border: 1px solid #ccc;
@@ -70,10 +228,17 @@
             text-align: center;
             white-space: nowrap;
         }
-        .visit-buttons button.active, .symptoms button.active, .menu-sections button.active, .irradiations button.active, .mr-buttons button.active {
+
+        .visit-buttons button.active,
+        .mr-buttons button.active,
+        .highschool-buttons button.active,
+        .symptoms button.active,
+        .menu-sections button.active,
+        .irradiations button.active {
             background-color: #444;
             color: #fff;
         }
+
         .date-inputs input[type="datetime-local"] {
             width: calc(100% - 22px);
             padding: 10px;
@@ -82,6 +247,7 @@
             border-radius: 4px;
             box-sizing: border-box;
         }
+
         .submit-button {
             width: 100%;
             padding: 15px;
@@ -92,54 +258,69 @@
             font-size: 18px;
             cursor: pointer;
         }
-        .menu-section {
-            display: none;
-        }
-        .menu-section.active {
-            display: block;
-        }
+
         .calendar-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center; /* カレンダーを中央に配置 */
+            justify-content: center;
             margin-bottom: 20px;
             position: relative;
-            width: 106%; /* 横幅を広げる */
-            margin-left: -3%; /* 親要素の中心にカレンダーを配置 */
+            width: 100%;
         }
+
         .calendar {
             flex: 1;
             background-color: #fff;
             border: 1px solid #ccc;
             border-radius: 4px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            overflow: hidden; /* 横スクロールを防ぐ */
-            width: 106%;
+            overflow: hidden;
+            width: 100%;
         }
+
         .calendar table {
             width: 100%;
             border-collapse: collapse;
+            table-layout: fixed;
+            /* セル幅を均等にする */
         }
-        .calendar th, .calendar td {
+
+        .calendar th,
+        .calendar td {
+            font-size: 12.5px;
+            /* ここでフォントサイズを変更 */
             text-align: center;
             padding: 5px;
             cursor: pointer;
             vertical-align: top;
-            width: 14.28%; /* 7日間が一列に収まるように設定 */
+            width: auto;
+            /* 通常のセルは自動調整 */
             box-sizing: border-box;
-            border: 1px solid #000; /* ここで区切り線を追加 */
+            border: 2px solid #696969;
         }
+
+        .calendar th:first-child,
+        .calendar td:first-child {
+            width: 17%;
+            /* ここで時間列の幅を調整 */
+            font-size: 12.5px;
+            /* フォントサイズを変更 */
+        }
+
         .calendar th {
             background-color: #f7f7f7;
         }
+
         .calendar td:hover {
             background-color: #ddd;
         }
+
         .calendar td.selected {
-            background-color: #444;
+            background-color: #38c4b7;
             color: #fff;
         }
+
         .week-button-container {
             display: flex;
             justify-content: space-between;
@@ -147,7 +328,25 @@
             width: 100%;
             margin-bottom: 10px;
         }
+
         .week-button {
+            padding: 10px 20px;
+            background-color: #444444;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .month-button-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .month-button {
             padding: 10px 20px;
             background-color: #444;
             color: #fff;
@@ -155,52 +354,381 @@
             border-radius: 4px;
             cursor: pointer;
         }
+
         .current-month {
             font-size: 16px;
             font-weight: bold;
             color: #444;
+            margin-top: 20px;
+            /* 下にずらす */
+            display: inline-block;
+            /* margin-top を適用しやすくする */
         }
+
         .loading-spinner {
-            position: absolute;
+            position: fixed;
+            /* 画面全体に対応 */
             top: 50%;
+            /* 縦中央 */
             left: 50%;
+            /* 横中央 */
             transform: translate(-50%, -50%);
             display: none;
+            /* 初期状態は非表示 */
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.6);
+            /* 半透明の黒背景で注目度アップ */
+            padding: 40px;
+            /* 周囲に余白をつける */
+            border-radius: 10px;
+            /* 角丸で柔らかい印象 */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            /* 少し立体感を追加 */
         }
+
         .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            border-top-color: #444;
+            width: 60px;
+            /* スピナーをさらに大きく */
+            height: 60px;
+            border: 5px solid rgba(255, 255, 255, 0.2);
+            /* 薄い白で枠を柔らかく */
+            border-top-color: #38c4b7;
+            /* 明るい青で目立たせる */
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            /* 丸い形状 */
+            animation: spin 0.7s linear infinite;
+            /* 滑らかで速い回転 */
+            margin-left: 12px;
+            /* スピナーを右にずらす */
         }
+
+        .loading-text {
+            margin-top: 20px;
+            /* スピナーとテキストの間隔 */
+            font-size: 15px;
+            /* さらに大きなフォントサイズ */
+            font-weight: bold;
+            /* 太字で目立たせる */
+            color: #ffffff;
+            /* 純白で高いコントラスト */
+            letter-spacing: 1px;
+            /* 文字間隔を広げてモダンな印象に */
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            /* テキストに影をつけて視認性アップ */
+        }
+
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
+
         .available {
-        color: red;
+            color: red;
         }
+
         .unavailable {
             background-color: #d3d3d3;
         }
+
         .menu-section {
             display: none;
         }
+
         .menu-section.active {
             display: block;
         }
-        #repairLabel, #repairButtons {
-        display: none;
+
+        #repairLabel,
+        #repairButtons {
+            display: none;
         }
-.highlight-background {
-    background-color: #f9f9d6;
-    padding: 10px;
-    border-radius: 10px;
-    margin-bottom: 15px;
-    margin-top: 10px; /* 上に余白を追加 */
-}
-                .datetime-placeholder {
+
+        #treatment-text {
+            background-color: #eef9f5;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 1px;
+        }
+
+        .highlight-background {
+            background-color: #f9f9d6;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            margin-top: 10px;
+            /* 上に余白を追加 */
+            text-align: center;
+            /* コンテナ内の要素を中央に配置 */
+        }
+
+        .highlight-text {
+            display: block;
+            font-weight: bold;
+            text-align: center;
+            /* テキストを中央揃えにする */
+            text-indent: 40px;
+            /* テキストを右に20pxずらす */
+        }
+
+        .red-circle {
+            color: red;
+            /* 赤色に設定 */
+        }
+
+        .bold-cross {
+            font-weight: bold;
+            /* 太文字に設定 */
+        }
+
+        .info-text {
+            margin-top: 20px;
+            /* 上の余白 */
+            margin-bottom: 10px;
+            /* 下に白い隙間を追加 */
+            font-size: 13px;
+            color: #000000;
+            line-height: 1.5;
+            text-align: center;
+            word-wrap: break-word;
+            background-color: #eef9f5;
+            /* 青っぽい背景色を追加 */
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        /* 携帯端末向けのレスポンシブデザイン */
+        @media (max-width: 768px) {
+            .info-text {
+                font-size: 11.5px;
+                /* スマホでは少し小さく */
+                margin-top: 10px;
+                /* 上下のマージンを調整 */
+                line-height: 2.0;
+                /* テキストの高さ調整 */
+            }
+        }
+
+        .symptoms,
+        .options {
+            display: block;
+            /* ボタンを縦並びに */
+        }
+
+        .symptoms button,
+        .options button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #f7f7f7;
+            cursor: pointer;
+            box-sizing: border-box;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .symptoms button.active,
+        .options button.active {
+            background-color: #444;
+            color: #fff;
+        }
+
+        .highlight-background {
+            cursor: pointer;
+            background-color: #38c4b7;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .symptoms,
+        .options {
+            display: block;
+            /* ボタンを縦並びに */
+        }
+
+        .highlight-text {
+            font-weight: bold;
+            display: inline-block;
+            color: #fff;
+            /* オプションテキストの色 */
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: -5px 0;
+        }
+
+        hr {
+            margin: -5px 0;
+        }
+
+        .edit-button {
+            background-color: #ff6b6b;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+            /* 改行を防ぐ */
+            width: 80px;
+            /* 横幅を固定 */
+            text-align: center;
+            /* テキストを中央揃え */
+        }
+
+        .edit-button:hover {
+            background-color: #ff4f4f;
+        }
+
+
+        /* 100点の予約フォームCSS */
+
+        input:focus,
+        textarea:focus {
+            border-color: #38c4b7;
+            outline: none;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+        }
+
+        button {
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            background-color: #38c4b7;
+            color: #000000;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background-color: #444;
+            transform: scale(1.05);
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            background-color: #16b7d2;
+        }
+
+        .submit-button:hover {
+            background-color: #16b7d2;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            input,
+            button {
+                font-size: 14px;
+            }
+        }
+
+        button.active {
+            outline: 2px solid #696969;
+            /* ここで枠線を指定 */
+            outline-offset: 2px;
+        }
+
+        /* 必須マークのスタイル */
+        .required {
+            color: #ffffff;
+            /* ゴールド（黄色） */
+            font-weight: lighter;
+            /* 文字を細くする */
+            font-size: 0.6em;
+            margin-left: 5px;
+            vertical-align: 0.8em;
+            /* 位置を少し上に調整 */
+
+            /* 白色背景の四角形 */
+            background-color: rgb(255, 15, 15);
+            padding: 0 5px;
+            border-radius: 3px;
+            margin-right: 5px;
+        }
+
+        .current-month {
+            text-align: center;
+            display: block;
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, -10px);
+            /* Y方向に上げる */
+            background-color: #38c4b7;
+            color: #fff;
+            padding: 3px 12px;
+            /* ボックスのパディングを縮小 */
+            border-radius: 8px;
+            /* 角の丸みを少し減少 */
+            font-size: 1.4rem;
+            /* フォントサイズを小さく */
+            font-weight: bold;
+            box-shadow: 0 2px 6px rgba(47, 103, 167, 0.2);
+            /* 影も控えめに */
+        }
+
+        /* ナビゲーションバー */
+        .sidebar {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #1e1e2d;
+            padding: 10px;
+            border-radius: 10px 0 0 10px;
+            z-index: 1000;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 15px;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            font-size: 14px;
+            margin-bottom: 10px;
+            background: #4a90e2;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .sidebar a:hover {
+            background: #357ac4;
+        }
+
+        /* スクロール用のセクション */
+        .section {
+            padding: 50px 10px;
+            margin-top: 30px;
+        }
+
+        .datetime-placeholder {
             position: absolute;
             top: 50%;
             left: 15px;
@@ -210,79 +738,172 @@
             pointer-events: none;
             transition: all 0.3s ease;
         }
+
         .datetime-input {
             width: 100%;
-            padding: 15px; /* サイズを大きく調整 */
-            font-size: 18px; /* フォントサイズを大きく */
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            padding: 18px;
+            /* 少し大きめにして押しやすく */
+            font-size: 18px;
+            border: 2px solid #888;
+            /* 少し濃くして視認性アップ */
+            border-radius: 8px;
+            /* 指触りの良いデザイン */
             box-sizing: border-box;
+            background-color: #fff;
+            color: #333;
+            appearance: none;
+            /* OSに左右されにくくする */
+            touch-action: manipulation;
+            /* モバイルのタップ精度向上 */
+            transition: border-color 0.3s, box-shadow 0.3s;
         }
-        .datetime-input:focus + .datetime-placeholder,
-        .datetime-input:not(:placeholder-shown) + .datetime-placeholder {
-            visibility: hidden;
-            opacity: 0;
+
+        .datetime-input:focus {
+            border-color: #007BFF;
+            box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.2);
+            /* タップ時の視覚的フィードバック */
+            outline: none;
+        }
+
+        .kibounitizi {
+            display: block;
+            /* ブロック要素として表示。幅いっぱいに広がるよ！ */
+            margin-bottom: 1px;
+            /* 下に10pxのスペースをあける（余白） */
+            padding: 3px;
+            /* 内側に3pxのスペースをつける（中身がくっつかないように） */
+            font-weight: 600;
+            /* 文字を少し太くする（600は太さの目安） */
+            background-color: #13ca5e;
+            /* 背景の色をくすんだ緑にする */
+            color: white;
+            /* 文字の色を白にする */
+            border-radius: 6px;
+            /* 角を6pxだけ丸くする（ふんわりした見た目に） */
+            font-size: 20px;
+            /* 文字の大きさを18pxにする（ちょっと大きめ） */
+            text-align: center;
+            /* 文字を中央に揃える */
+            /* ↑ 中央揃えにしています */
+            text-indent: 20px;
+            /* 最初の行だけ、文字を右に20pxずらす */
+            /* ↑ テキストの先頭をちょっと右にずらしてるよ！ */
+            position: relative;
+            /* 子要素を自由に配置できるようにする準備（位置調整） */
+            overflow: hidden;
+            /* はみ出た中身を隠す（枠から出ないようにする） */
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: -5px 0;
+        }
+
+        hr {
+            margin: -5px 0;
+        }
+
+        .edit-button {
+            background-color: #ff6b6b;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+            /* 改行を防ぐ */
+            width: 80px;
+            /* 横幅を固定 */
+            text-align: center;
+            /* テキストを中央揃え */
+        }
+
+        .edit-button:hover {
+            background-color: #ff4f4f;
         }
     </style>
 </head>
+
 <body>
+    <!-- 右側の追従ナビ -->
+    <div class="side-nav" id="sideNav">
+        <a href="#section-message">
+            <span>⇩</span>
+            <i class="fas fa-comment"></i>
+        </a>
+    </div>
+
     <div class="container">
         <h1>BIG HANDS<br>予約フォーム</h1>
-        <div class="label">お客様名※必須</div>
-        <input type="text" id="name" placeholder="お名前を入力してください" oninput="saveInput('name')"> <!-- 名前入力フィールド -->
+        <div class="label">お客様名<span class="required">必須</span></div>
+        <input type="text" id="name" placeholder="お名前を入力してください" oninput="saveInput('name')">
 
-        <div class="label">性別</div>
+        <div class="labelSeibetu">性別</div>
         <div class="mr-buttons">
             <button type="button" id="firstmr" onclick="selectmr(this)">男性</button> <!-- 初めて来院ボタン -->
             <button type="button" id="repeatmr" onclick="selectmr(this)">女性</button> <!-- 2回目以降来院ボタン -->
         </div>
 
-        <div class="label">電話番号※必須</div>
-        <input type="tel" id="phone" placeholder="電話番号を入力してください"> <!-- 電話番号入力フィールド -->
+        <div class="label">電話番号<span class="required">必須</span></div>
+        <input type="tel" id="phone" placeholder="電話番号を入力してください" oninput="saveInput('phone')"> <!-- 電話番号入力フィールド -->
 
-        <div class="label">ご来院回数※任意</div>
+        <div class="label">ご来院回数<span class="required">必須</span></div>
         <div class="visit-buttons">
             <button type="button" id="firstVisit" onclick="selectVisit(this)">初めて</button> <!-- 初めて来院ボタン -->
             <button type="button" id="repeatVisit" onclick="selectVisit(this)">2回目以降</button> <!-- 2回目以降来院ボタン -->
         </div>
 
         <div class="highlight-background">
-            <span class="highlight-text">第1希望日※必須</span>
+            <span class="highlight-text">第1希望日<span class="required">必須</span></span>
         </div>
 
         <!-- カスタム placeholder 表示用 -->
-<div class="datetime-wrapper" style="text-align: center;">
-    <span class="placeholder" id="placeholder1">⇩タップして日時を入力⇩</span>
-    <input type="datetime-local" id="date1" class="datetime-input" placeholder=" " aria-label="タップして日時を入力">
-    <span class="datetime-placeholder">タップして日時を入力</span>
-</div>
+        <div class="datetime-wrapper" style="text-align: center;">
+            <span class="placeholder" id="placeholder1">⇩タップして日時を入力⇩</span>
+            <input type="datetime-local" id="date1" class="datetime-input" placeholder=" " aria-label="タップして日時を入力">
+            <span class="datetime-placeholder"></span>
+        </div>
 
         <div class="highlight-background">
-            <span class="highlight-text">第2希望日※必須</span>
+            <span class="highlight-text">第2希望日<span class="required">必須</span></span>
         </div>
 
         <!-- カスタム placeholder 表示用 -->
         <div class="datetime-wrapper" style="text-align: center;">
             <span class="placeholder" id="placeholder2">⇩タップして日時を入力⇩</span>
             <input type="datetime-local" id="date2" class="datetime-input" placeholder=" " aria-label="タップして日時を入力">
-            <span class="datetime-placeholder">タップして日時を入力</span>
+            <span class="datetime-placeholder"></span>
         </div>
 
-        <div class="label">メッセージ<br>（お身体のお悩みがございましたらご記載ください）</div>
+        <div class="labelContent">メッセージ<br>（お身体のお悩みがございましたら<br>ご記載ください）</div>
         <textarea id="message" rows="4" placeholder="メッセージを入力してください"></textarea> <!-- メッセージ入力フィールド -->
 
-        <button class="submit-button" onclick="submitForm()">予約を行う</button> <!-- フォーム送信ボタン -->
+        <div class="labelContent">ご予約内容</div>
+        <div id="displayInfo"></div> <!-- ここに選択された情報を表示します -->
+
+        <button class="submit-button" onclick="submitForm()" div id="section-message">予約を行う</button>
     </div>
 
     <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script> <!-- LIFF SDKの読み込み -->
     <script>
-        let visitCount = ''; <!-- 訪問回数を格納する変数 -->
-        let mrCount = ''; <!-- 訪問回数を格納する変数 -->
-        let selectedSymptom = ''; <!-- 選択された症状を格納する変数 -->
-        let irradiationsCount = ''; <!-- 選択された症状を格納する変数 -->
+        let visitCount = '';
+        let mrCount = '';
+        let selectedMenu = '';
+        let highschoolCount = '';
+        let selectedSymptom = [];  // 配列として定義
+        let selectedFullDate = '';
+        let currentDate = new Date();
+        let availabilityCache = {};
+        let irradiationsCount = '';
+        let totalAmount = 0; // 合計金額を格納する変数
+        let menuPrice = 0; // メニューの価格
+        let optionsPrice = 0; // オプションの合計価格
 
         // LIFF初期化
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             liff.init({
                 liffId: '2006421896-Dz9B3O1p' // ここにあなたのLIFF IDを入力
             }).then(() => {
@@ -309,6 +930,165 @@
             if (savedPhone) document.getElementById('phone').value = savedPhone;
         });
 
+// 性別の保存値を取得して反映
+const savedGender = localStorage.getItem('selectedGender');
+if (savedGender) {
+    if (savedGender === '男性') {
+        document.getElementById('firstmr').classList.add('active');
+        mrCount = '男性';
+    }
+    if (savedGender === '女性') {
+        document.getElementById('repeatmr').classList.add('active');
+        mrCount = '女性';
+    }
+}
+
+// 来店回数の保存値を取得して反映
+const savedVisit = localStorage.getItem('visitStatus');
+if (savedVisit) {
+    if (savedVisit === '初めて') {
+        document.getElementById('firstVisit').classList.add('active');
+        visitCount = '初めて';
+    }
+    if (savedVisit === '2回目以降') {
+        document.getElementById('repeatVisit').classList.add('active');
+        visitCount = '2回目以降';
+    }
+}
+
+        // スムーズスクロール
+        document.querySelectorAll('.side-nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 20,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        function formatDateTime(dateTimeString) {
+            const date = new Date(dateTimeString);
+
+            if (isNaN(date)) {
+                return '無効な日時です'; // 無効な日付の場合のエラーメッセージ
+            }
+
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1; // 月は0から始まるため+1
+            const day = date.getDate();
+            const hours = date.getHours();
+            const minutes = String(date.getMinutes()).padStart(2, '0'); // 分を2桁に整形
+
+            return `${year}年${month}月${day}日　${hours}時${minutes}分`;
+        }
+
+        function updateDisplayInfo() {
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const mrCountText = mrCount ? `<span style="color:#16b7d2;"><strong>【性別】</strong></span><br>・${mrCount}` : '・性別が未選択です';
+            const visitCountText = visitCount ? `<span style="color:#16b7d2;"><strong>【ご来店回数】</strong></span><br>・${visitCount}` : '・来店回数が未選択です';
+
+            // 第1希望日が選択された場合の表示
+            const selectedDate1 = document.getElementById('date1').value;
+            const selectedDate1Text = selectedDate1
+                ? `<span style="color:#16b7d2;"><strong>【第1希望日】</strong></span><br>・${formatDateTime(selectedDate1)}`
+                : '・第1希望日が未選択です';
+
+            // 第2希望日が選択された場合の表示
+            const selectedDate2 = document.getElementById('date2').value;
+            const selectedDate2Text = selectedDate2
+                ? `<span style="color:#16b7d2;"><strong>【第2希望日】</strong></span><br>・${formatDateTime(selectedDate2)}`
+                : '・第2希望日が未選択です';
+
+            // 修正ボタン付きのHTMLを作成
+            document.getElementById('displayInfo').innerHTML = `
+        <div class="info-row">
+            <p><span style="color:#16b7d2;"><strong>【お名前】</strong></span><br>・${name}</p>
+            <button class="edit-button" onclick="scrollToElement('name')">修正する</button>
+        </div>
+        <hr>
+        <div class="info-row">
+            <p>${mrCountText}</p>
+            <button class="edit-button" onclick="scrollToElement('firstmr')">修正する</button>
+        </div>
+        <hr>
+        <div class="info-row">
+            <p><span style="color:#16b7d2;"><strong>【電話番号】</strong></span><br>・${phone}</p>
+            <button class="edit-button" onclick="scrollToElement('phone')">修正する</button>
+        </div>
+        <hr>
+        <div class="info-row">
+            <p>${visitCountText}</p>
+            <button class="edit-button" onclick="scrollToElement('firstVisit')">修正する</button>
+        </div>
+        <hr>
+        <div class="info-row">
+            <p>${selectedDate1Text}</p>
+            <button class="edit-button" onclick="scrollToElement('date1')">修正する</button>
+        </div>
+        <hr>
+        <div class="info-row">
+            <p>${selectedDate2Text}</p>
+            <button class="edit-button" onclick="scrollToElement('date2')">修正する</button>
+        </div>
+        <hr>
+    `;
+        }
+
+        // スクロール関数
+        function scrollToElement(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // 各ボタンや入力フィールドでupdateDisplayInfoを呼び出すようにする
+        document.getElementById('name').addEventListener('input', updateDisplayInfo);
+        document.querySelectorAll('.visit-buttons button').forEach(button => {
+            button.addEventListener('click', updateDisplayInfo);
+        });
+        document.querySelectorAll('.mr-buttons button').forEach(button => {
+            button.addEventListener('click', updateDisplayInfo);
+        });
+        document.querySelectorAll('.symptoms button').forEach(button => {
+            button.addEventListener('click', updateDisplayInfo);
+        });
+        document.querySelectorAll('.irradiations button').forEach(button => {
+            button.addEventListener('click', updateDisplayInfo);
+        });
+
+        // 第一希望日、第二希望日、第三希望日でupdateDisplayInfoを呼び出す
+        document.getElementById('date1').addEventListener('change', updateDisplayInfo);
+        document.getElementById('date2').addEventListener('change', updateDisplayInfo);
+        document.getElementById('date3').addEventListener('change', updateDisplayInfo);
+
+        // 日付セルのクリックイベントで希望日時を更新
+        document.querySelectorAll('.calendar td').forEach(cell => {
+            cell.addEventListener('click', () => {
+                selectDate(cell);
+                updateDisplayInfo();  // 日付を選択したら即座に表示を更新
+            });
+        });
+
+        // 初期状態でカレンダーを非表示にする
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('.calendar-container').style.display = 'none';
+        });
+
+        // 日付セルのクリックイベントで希望日時を更新
+        document.querySelectorAll('.calendar td').forEach(cell => {
+            cell.addEventListener('click', () => {
+                selectDate(cell);
+                updateDisplayInfo();  // 日付を選択したら即座に表示を更新
+            });
+        });
+
         // プレースホルダーを非表示にする関数
         function hidePlaceholder(placeholderId) {
             document.getElementById(placeholderId).style.display = 'none';
@@ -328,6 +1108,11 @@
             document.getElementById('repeatVisit').classList.remove('active');
             /* クリックされたボタンを選択状態にする */
             element.classList.add('active');
+    // 選択された性別を取得して保存
+    visitCount = element.innerText;
+    localStorage.setItem('visitStatus', visitCount);
+
+    console.log('選択された性別:', visitCount);
             /* 選択された訪問回数を変数に格納 */
             visitCount = element.innerText;
         }
@@ -338,6 +1123,11 @@
             document.getElementById('repeatmr').classList.remove('active');
             /* クリックされたボタンを選択状態にする */
             element.classList.add('active');
+    // 選択された性別を取得して保存
+    mrCount = element.innerText;
+    localStorage.setItem('selectedGender', mrCount);
+
+    console.log('選択された性別:', mrCount);
             /* 選択された訪問回数を変数に格納 */
             mrCount = element.innerText;
         }
@@ -394,7 +1184,7 @@
             // LINEトークにメッセージを送信
             liff.sendMessages([{
                 type: 'text',
-                text: `≪予約フォーム≫\n【お名前】：${formData.name}\n【電話番号】：${formData.phone}\n【性別】：${formData.mrCount}\n【ご来院回数】：${formData.visitCount}\n【希望日時】：\n・第一希望日\n${formData.dates[0]}\n・第二希望日\n${formData.dates[1]}\n【メッセージ】：${formData.message}`
+                text: `≪BIG HANDS予約情報≫\n【お名前】\n・${formData.name}\n【電話番号】\n・${formData.phone}\n【性別】\n・${formData.mrCount}\n【ご来院回数】\n・${formData.visitCount}\n\n【希望日時】\n〈第一希望日〉\n${formData.dates[0]}\n\n〈第二希望日〉\n${formData.dates[1]}\n\n【メッセージ】\n⇒${formData.message}`
             }]).then(() => {
                 /* メッセージ送信成功時の処理 */
                 alert('当日のキャンセルは無いようにお願いいたします。');
@@ -407,27 +1197,28 @@
         }
 
         function formatDate(datetime) {
-    /* 日時文字列が空の場合は空文字を返す */
-    if (!datetime) return '';
-    
-    /* 日時文字列をDateオブジェクトに変換 */
-    const date = new Date(datetime);
-    
-    /* 年、月、日、時、分を取得しフォーマット */
-    const year = date.getFullYear();
-    const month = ('0' + (date.getMonth() + 1)).slice(-2);
-    const day = ('0' + date.getDate()).slice(-2);
-    const hours = ('0' + date.getHours()).slice(-2);
-    const minutes = ('0' + date.getMinutes()).slice(-2);
-    
-    /* 曜日を取得 */
-    const weekdays = ['日', '月', '火', '水', '木', '金', '土'];
-    const weekday = weekdays[date.getDay()];
-    
-    /* フォーマットした文字列を返す */
-    return `${year}年${month}月${day}日 (${weekday}) ${hours}:${minutes}`;
-}
+            /* 日時文字列が空の場合は空文字を返す */
+            if (!datetime) return '';
+
+            /* 日時文字列をDateオブジェクトに変換 */
+            const date = new Date(datetime);
+
+            /* 年、月、日、時、分を取得しフォーマット */
+            const year = date.getFullYear();
+            const month = ('0' + (date.getMonth() + 1)).slice(-2);
+            const day = ('0' + date.getDate()).slice(-2);
+            const hours = ('0' + date.getHours()).slice(-2);
+            const minutes = ('0' + date.getMinutes()).slice(-2);
+
+            /* 曜日を取得 */
+            const weekdays = ['日', '月', '火', '水', '木', '金', '土'];
+            const weekday = weekdays[date.getDay()];
+
+            /* フォーマットした文字列を返す */
+            return `${year}年${month}月${day}日 (${weekday}) ${hours}:${minutes}`;
+        }
 
     </script>
 </body>
+
 </html>
