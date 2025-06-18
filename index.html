@@ -229,7 +229,7 @@
     <div class="container">
         <h1>BIG HANDS<br>予約フォーム</h1>
         <div class="label">お客様名※必須</div>
-        <input type="text" id="name" placeholder="お名前を入力してください"> <!-- 名前入力フィールド -->
+        <input type="text" id="name" placeholder="お名前を入力してください" oninput="saveInput('name')"> <!-- 名前入力フィールド -->
 
         <div class="label">性別</div>
         <div class="mr-buttons">
@@ -292,6 +292,21 @@
                 // LIFF初期化失敗時の処理
                 console.error('LIFF初期化失敗', err);
             });
+        });
+
+        // 入力内容をローカルストレージに保存
+        function saveInput(id) {
+            const value = document.getElementById(id).value;
+            localStorage.setItem(id, value);
+        }
+
+        // ページが読み込まれたときに前回の入力内容を復元
+        document.addEventListener('DOMContentLoaded', function () {
+            const savedName = localStorage.getItem('name');
+            const savedPhone = localStorage.getItem('phone');
+
+            if (savedName) document.getElementById('name').value = savedName;
+            if (savedPhone) document.getElementById('phone').value = savedPhone;
         });
 
         // プレースホルダーを非表示にする関数
