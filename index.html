@@ -1187,7 +1187,7 @@ if (savedVisit) {
                 text: `≪BIG HANDS予約情報≫\n【お名前】\n・${formData.name}\n【電話番号】\n・${formData.phone}\n【性別】\n・${formData.mrCount}\n【ご来院回数】\n・${formData.visitCount}\n\n【希望日時】\n〈第一希望日〉\n${formData.dates[0]}\n\n〈第二希望日〉\n${formData.dates[1]}\n\n【メッセージ】\n⇒${formData.message}`
             }]).then(() => {
                 /* メッセージ送信成功時の処理 */
-                alert('当日のキャンセルは無いようにお願いいたします。');
+                alert('ご予約ありがとうございます。ご確認後、ご連絡差し上げます。');
                 /* LIFFウィンドウを閉じる */
                 liff.closeWindow();
             }).catch((err) => {
